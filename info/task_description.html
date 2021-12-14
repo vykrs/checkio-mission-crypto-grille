@@ -1,73 +1,70 @@
 <p>
 <i>
-This is the second in a series of missions dedicated to classical cryptography. In this mission we will try to break the Scytale encryption.
+This is the third mission on classical cryptography. In it, we will encrypt a message using a rotating grille.
 </i>  
 </p>
 
 <img class="for_info_only half" style="float: left" src="{{ MEDIA }}Skytale.png">
 
 <p>
-Scytale is one of the first known cryptographic devices, used by ancient Greeks, namely Spartans, during their military campaigns.
-It consisted of a cylindrical rod or staff with a long strip of parchment wrapped around it. The sender would simply write the message along the length of the rod and across the winds of a strip until the end of the parchment was reached, then turn the cylinder and continue writing the next line. After unwinding the parchment, the text became unintelligible. 
-To decrypt the message, it would be wrapped around another scytale of the same diameter, after which the plaintext could be read along it.
+Rotating grille cipher is a transposition cipher that uses a special square sheet of cardboard (the <b>grille</b>) with holes cut in it. To encrypt a message, sender must place the grille on an empty sheet of paper and write letters of the plaintext into the holes left to right, top to bottom. After filling all the holes, the grille is rotated 90 degrees clockwise (the holes move to empty spaces) and the process continues. After the grille was rotated 2 more times, there should be no empty spaces on the paper; if the message is not finished, the algorithm is repeated on the next sheet.
 </p>
 
 <p>
-Scytale is a <i>transposition</i> cipher. Unlike substitution ciphers, like Atbash or Caesar's cipher, here the letters of the plaintext remain unchanged, but their order is altered.
+For example, here's what encrypting the line <b>Meet me at eleven PM</b> would look like (we'll use a grille of size 4x4):
 </p>
-
-<p>
-For example, suppose the message is <b>"let's meet at eleven in the evening"</b> and diameter of the rod allows to write 4 letters in a circle. The scytale with a message written on it would look like this:
-</p>
-
-<p class="for_info_only" style="text-align: center;">
+<p class="for_info_only" style="text-align: left;">
     <img src="{{ MEDIA }}ex1.png" style="max-height: 300px" />
 </p>
 
 <p>
-After unwinding the strip the message becomes "lteeeanvttiesennmltieehneveg".
+After the encryption, the ciphertext reads as ...
 </p>
 
 <p>
-If an adversary intercepted a message, they wouldn't be able to read it unless they knew the <i>key</i> to encryption - in this case, the diameter of the cylinder (or, more specifically, number of letters that could be written in a circle around it). However, it could easily be found by trying several rods of different size. Another method (attributed to Aristotle) includes wrapping the parchment with encrypted message around a cone-shaped rod with varying diameter until a fragment of text becomes readable.
+In this task you are given a message and a key (4x4 square grille); length of the message is divisible by 16. You need to encrypt a message with the rotating grille cipher. There is a problem, though: some of the keys are defective. A "correct" key is made in such a way that, when laid over a grid and rotated around, every cell is shown exactly once. So with defective keys, either some cells are shown more than once, or after applying the key in all four directions there are still unfilled spaces on the sheet. See examples of bad keys below:
 </p>
 
 <p>
-In this mission we'll try to break a scytale encryption. You have a cryptogram and a <i>crib</i> - a word that is expected to be in the decrypted message. You need to try all the possible keys until you get a plaintext that contains the crib. If after trying every key you either found no such plaintext, or found more than one possible keys - return <b>None</b>.
+If the key is correct, return encrypted message; if the key is defective - return <b>None</b>
 </p>
 
 <p>
-There is also one last piece of informaion: you know that the sender encrypts the messages using the shortest possible strip of parchment, so that there are no empty spaces on it. for example, the message <b>"let's meet at eleven in the evening"</b>, encrypted with key <b>5</b>, will look like this:
-</p>
-
-<p class="for_info_only" style="text-align: center;">
-    <img src="{{ MEDIA }}ex2.png" style="max-height: 300px" />
+    <strong>Input: </strong> plaintext: str, key: list of str (positions of holes are marked by <b>"Х"</b>)
 </p>
 
 <p>
-Note that the lines have different lengths. The cryptogram will be "leeteetvhntaeeistnenmeivgeln"
-</p>
-
-<!-- Explain input and output values -->
-<p>
-    <strong>Input: </strong> ciphertext: str, crib: str 
-</p>
-
-<p>
-    <strong>Output: </strong> plaintext: str or <b>None</b>
+    <strong>Output: </strong> ciphertext: str or <b>None</b>
 </p>
 
 
 <!-- Give some usage examples -->
 <div class="for_info_only">
     <p>
-        <strong>Example:</strong>
+        <strong>Exampe:</strong>
     </p>
 <pre class="brush: python">
-scytale_decipher('aaaatctwtkdn', 'dawn') == 'attackatdawn'
-scytale_decipher('hdoeerlallrdow', 'world') == 'hellodearworld'
-scytale_decipher('totetshpmeecisendysescwticsriasraytlaegphet', 'sicret') == None     #Crib is not in plaintext
-scytale_decipher('aaaatctwtkdn', 'at') == None                                        #More than one possible decryptions
+grille_encrypt('cardangrilletest', ['.X..', '.X..', '...X', 'X...']) == 'actilangeslrdret'
+grille_encrypt('quickbrownfoxjumpsoverthelazydog',
+                ['X...', '...X', '..X.', '.X..']) == 'qxwkbnjufriumcoopyeerldsatoogvhz'
+grille_encrypt('quickbrownfoxjumpsoverthelazydog', 
+                ['.XX.', '.XX.', '..X.', 'X...']) == None
+grille_encrypt('cardangrilletest', ['...X', '....', '....', '....']) == None        
 </pre>
+
 </div>
+
+<p>
+ <strong>
+  Предусловия:
+ </strong>
+ len(key) == 4
+ <br/>
+ all(len(l) == 4 for l in key)
+ <br/>
+ len(plaintext) % 16 == 0
+ <br/>
+ all(all(cell == "X" or cell == "." for cell in line) for line in key)
+ <br/>
+</p>
 
