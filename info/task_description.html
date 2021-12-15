@@ -4,17 +4,19 @@ This is the third mission on classical cryptography. In it, we will encrypt a me
 </i>  
 </p>
 
-<img class="for_info_only half" style="float: left" src="{{ MEDIA }}Skytale.png">
 
 <p>
-Rotating grille cipher is a transposition cipher that uses a special square sheet of cardboard (the <b>grille</b>) with holes cut in it. To encrypt a message, sender must place the grille on an empty sheet of paper and write letters of the plaintext into the holes left to right, top to bottom. After filling all the holes, the grille is rotated 90 degrees clockwise (the holes move to empty spaces) and the process continues. After the grille was rotated 2 more times, there should be no empty spaces on the paper; if the message is not finished, the algorithm is repeated on the next sheet.
+Rotating grille cipher is a transposition cipher that uses a special square sheet of cardboard (the <b>grille</b>) with holes cut in it. 
+    To encrypt a message, sender must place the grille on an empty sheet of paper and write letters of the plaintext into the holes left to right, top to bottom. 
+    After filling all the holes, the grille is rotated 90 degrees clockwise (the holes move to empty spaces) and the process continues. 
+    After the grille was rotated 2 more times, there should be no empty spaces on the paper; if the message is not finished, the algorithm is repeated on the next sheet.
 </p>
 
 <p>
 For example, here's what encrypting the line <b>Meet me at eleven PM</b> would look like (we'll use a grille of size 4x4):
 </p>
 <p class="for_info_only" style="text-align: left;">
-    <img src="{{ MEDIA }}ex1.png" style="max-height: 300px" />
+    <img src="{{ MEDIA }}encr.png" style="max-height: 200px" />
 </p>
 
 <p>
@@ -22,7 +24,15 @@ After the encryption, the ciphertext reads as ...
 </p>
 
 <p>
-In this task you are given a message and a key (4x4 square grille); length of the message is divisible by 16. You need to encrypt a message with the rotating grille cipher. There is a problem, though: some of the keys are defective. A "correct" key is made in such a way that, when laid over a grid and rotated around, every cell is shown exactly once. So with defective keys, either some cells are shown more than once, or after applying the key in all four directions there are still unfilled spaces on the sheet. See examples of bad keys below:
+In this task you are given a message and a key (4x4 square grille); length of the message is divisible by 16. You need to encrypt a message with the rotating grille cipher. 
+    There is a problem, though: some of the keys are defective. 
+    A "correct" key is made in such a way that, when laid over a grid and rotated around, every cell is shown exactly once. 
+    So with defective keys, either some cells are shown more than once, or after applying the key in all four directions there are still unfilled spaces on the sheet. 
+    See examples of bad keys below:
+</p>
+
+<p class="for_info_only" style="text-align: left;">
+    <img src="{{ MEDIA }}bad.png" style="max-height: 200px" />
 </p>
 
 <p>
@@ -56,7 +66,7 @@ grille_encrypt('cardangrilletest', ['...X', '....', '....', '....']) == None
 
 <p>
  <strong>
-  Предусловия:
+  Preconditions:
  </strong>
  len(key) == 4
  <br/>
